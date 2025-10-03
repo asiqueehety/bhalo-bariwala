@@ -1,9 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.BhaloBariwala" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Theme.BB.Material3" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Material baseline -->
+        <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+
+        <!-- TextInput style -->
+        <item name="textInputStyle">@style/Widget.BB.TextInputLayout</item>
+        <item name="materialButtonStyle">@style/Widget.BB.Button</item>
     </style>
 
-    <style name="Theme.BhaloBariwala" parent="Base.Theme.BhaloBariwala" />
+    <style name="Widget.BB.TextInputLayout" parent="Widget.Material3.TextInputLayout.FilledBox">
+        <item name="boxBackgroundMode">filled</item>
+        <item name="boxCornerRadiusTopStart">16dp</item>
+        <item name="boxCornerRadiusTopEnd">16dp</item>
+        <item name="boxCornerRadiusBottomStart">16dp</item>
+        <item name="boxCornerRadiusBottomEnd">16dp</item>
+    </style>
+
+    <style name="Widget.BB.Button" parent="Widget.Material3.Button">
+        <item name="android:minHeight">48dp</item>
+        <item name="cornerRadius">14dp</item>
+    </style>
 </resources>
