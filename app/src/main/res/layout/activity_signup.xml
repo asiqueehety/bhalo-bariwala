@@ -58,6 +58,19 @@
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Building ID (NEW) -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Building ID">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editBuildingId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <!-- Role selection -->
     <RadioGroup
         android:id="@+id/radioGroupRole"
