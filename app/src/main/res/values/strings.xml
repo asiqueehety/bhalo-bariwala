@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">BhaloBariwala</string>
+    <string name="app_name">Bhalo Bariwala</string>
+    <string name="login_title">Welcome back</string>
+    <string name="login_subtitle">Sign in to manage your rentals</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="role_title">Continue as</string>
+    <string name="role_tenant">Tenant</string>
+    <string name="role_owner">House Owner</string>
+    <string name="btn_login">Sign in</string>
+    <string name="btn_forgot">Forgot password?</string>
+    <string name="btn_signup">Create account</string>
 </resources>
