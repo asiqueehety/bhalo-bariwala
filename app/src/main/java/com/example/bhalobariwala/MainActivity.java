@@ -29,18 +29,18 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Buttons
-//        btnLogin = findViewById(R.id.btnLogin);
-//        btnSignup = findViewById(R.id.btnSignup);
-//
-//        btnLogin.setOnClickListener(v -> {
-//            // Start LoginActivity (make sure you create it)
-//            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-//        });
-//
-//        btnSignup.setOnClickListener(v -> {
-//            // Start SignupActivity (make sure you create it)
-//            startActivity(new Intent(MainActivity.this, SignupActivity.class));
-//        });
+        //Buttons
+        btnLogin = findViewById(R.id.btnLogin);
+        btnSignup = findViewById(R.id.btnSignup);
+
+        btnLogin.setOnClickListener(v -> {
+            // Start LoginActivity (make sure you create it)
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        });
+
+        btnSignup.setOnClickListener(v -> {
+            // Start SignupActivity (make sure you create it)
+            startActivity(new Intent(MainActivity.this, SignupActivity.class));
+        });
     }
 }
