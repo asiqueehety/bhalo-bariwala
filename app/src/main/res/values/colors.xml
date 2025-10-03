@@ -1,5 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Default colors -->
+    <color name="bb_primary">#6750A4</color>
+    <color name="bb_on_primary">#FFFFFF</color>
+    <color name="bb_bg">#0B1020</color>
+    <color name="bb_card">#12182A</color>
+    <color name="bb_outline">#2A3150</color>
+
     <color name="purple_200">#BB86FC</color>
     <color name="purple_500">#6200EE</color>
     <color name="purple_700">#3700B3</color>
