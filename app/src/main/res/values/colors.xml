@@ -17,4 +17,9 @@
     <!-- You can define your own -->
     <color name="landing_bg_start">#4CAF50</color> <!-- Green -->
     <color name="landing_bg_end">#81C784</color>   <!-- Light green -->
+
+    <color name="card_blue">#50323B</color>
+    <color name="card_orange">#FF7043</color>
+    <color name="card_green">#4CAF50</color>
+
 </resources>
