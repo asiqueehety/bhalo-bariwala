@@ -10,6 +10,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.bhalobariwala.ui.login.LoginActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     Button btnLogin, btnSignup;
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         btnSignup.setOnClickListener(v -> {
             // Start SignupActivity (make sure you create it)
-            startActivity(new Intent(MainActivity.this, SignupActivity.class));
+            startActivity(new Intent(MainActivity.this, SignUpActivity.class));
         });
     }
 }
