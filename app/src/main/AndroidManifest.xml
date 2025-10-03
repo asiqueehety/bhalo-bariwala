@@ -19,6 +19,9 @@
 
         <activity android:name=".SignUpActivity" android:exported="true"/>
         <activity android:name=".ui.login.LoginActivity" android:exported="true"/>
+        <activity android:name=".ui.owner.OwnerDashboardActivity" />
+        <activity android:name=".ui.tenant.TenantDashboardActivity" />
+
     </application>
 
 
