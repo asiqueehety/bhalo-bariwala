@@ -13,7 +13,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private TextInputEditText editName, editEmail, editPassword;
+    private TextInputEditText editUsername, editEmail, editPassword, editRetypePassword;
     private RadioGroup radioGroupRole;
     private Button btnSignUp;
 
@@ -22,28 +22,32 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        editName = findViewById(R.id.editName);
+        editUsername = findViewById(R.id.editUsername);
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
+        editRetypePassword = findViewById(R.id.editRetypePassword);
         radioGroupRole = findViewById(R.id.radioGroupRole);
         btnSignUp = findViewById(R.id.btnSignUp);
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = editName.getText().toString().trim();
+                String username = editUsername.getText().toString().trim();
                 String email = editEmail.getText().toString().trim();
                 String password = editPassword.getText().toString().trim();
+                String retypePassword = editRetypePassword.getText().toString().trim();
 
                 int selectedId = radioGroupRole.getCheckedRadioButtonId();
                 RadioButton selectedRoleBtn = findViewById(selectedId);
                 String role = selectedRoleBtn != null ? selectedRoleBtn.getText().toString() : "";
 
-                if (name.isEmpty() || email.isEmpty() || password.isEmpty() || role.isEmpty()) {
+                if (username.isEmpty() || email.isEmpty() || password.isEmpty() || retypePassword.isEmpty() || role.isEmpty()) {
                     Toast.makeText(SignUpActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                } else if (!password.equals(retypePassword)) {
+                    Toast.makeText(SignUpActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(SignUpActivity.this,
-                            "Signed up as " + role + "\nName: " + name + "\nEmail: " + email,
+                            "Signed up as " + role + "\nUsername: " + username + "\nEmail: " + email,
                             Toast.LENGTH_LONG).show();
                 }
             }

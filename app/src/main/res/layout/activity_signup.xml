@@ -7,20 +7,24 @@
     android:padding="20dp"
     android:gravity="center">
 
+    <!-- Username -->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Full Name">
+        android:hint="Username">
+
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editName"
+            android:id="@+id/editUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Email -->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editEmail"
             android:layout_width="match_parent"
@@ -28,12 +32,27 @@
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Password -->
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Retype Password -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Retype Password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editRetypePassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword" />
@@ -60,6 +79,7 @@
             android:text="Tenant" />
     </RadioGroup>
 
+    <!-- Signup Button -->
     <Button
         android:id="@+id/btnSignUp"
         android:layout_width="match_parent"
