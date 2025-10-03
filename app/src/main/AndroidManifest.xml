@@ -9,6 +9,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BhaloBariwala">
         <activity
+            android:name=".ui.owner.OwnerProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.owner.ComplaintsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.owner.RentCheckActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.owner.PropertiesActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.tenant.TenantDirectoryActivity"
             android:exported="false" />
         <activity
