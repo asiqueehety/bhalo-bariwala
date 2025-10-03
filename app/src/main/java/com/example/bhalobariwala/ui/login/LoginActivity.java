@@ -1,5 +1,7 @@
+// app/src/main/java/com/example/bhalobariwala/ui/login/LoginActivity.java
 package com.example.bhalobariwala.ui.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -9,6 +11,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bhalobariwala.R;
+import com.example.bhalobariwala.UserDAO;
+import com.example.bhalobariwala.ui.owner.OwnerDashboardActivity;
+import com.example.bhalobariwala.ui.tenant.TenantDashboardActivity;
+import com.example.bhalobariwala.SignUpActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -26,7 +32,9 @@ public class LoginActivity extends AppCompatActivity {
     private CircularProgressIndicator progress;
 
     private enum Role { TENANT, OWNER }
-    private Role selectedRole = Role.TENANT; // default
+    private Role selectedRole = Role.TENANT;
+
+    private UserDAO userDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,26 +43,29 @@ public class LoginActivity extends AppCompatActivity {
 
         bindViews();
 
-        // Restore previously selected role (e.g., on rotation)
+        userDAO = new UserDAO(this);
+        userDAO.open();
+
         if (savedInstanceState != null) {
             String saved = savedInstanceState.getString(KEY_ROLE, Role.TENANT.name());
             try {
                 selectedRole = Role.valueOf(saved);
-            } catch (IllegalArgumentException ignore) { selectedRole = Role.TENANT; }
+            } catch (IllegalArgumentException ignore) {
+                selectedRole = Role.TENANT;
+            }
         }
-
         setUpRoleToggle();
 
         btnLogin.setOnClickListener(v -> attemptLogin());
 
+        // "Create account" text -> open Sign Up screen
         findViewById(R.id.tvSignup).setOnClickListener(v ->
-                        Toast.makeText(this, "Signup screen (to be added)", Toast.LENGTH_SHORT).show()
-                // TODO: startActivity(new Intent(this, SignupActivity.class));
+                startActivity(new Intent(this, SignUpActivity.class))
         );
 
+        // "Forgot password" placeholder
         findViewById(R.id.tvForgot).setOnClickListener(v ->
-                        Toast.makeText(this, "Forgot password (to be added)", Toast.LENGTH_SHORT).show()
-                // TODO: startActivity(new Intent(this, ForgotPasswordActivity.class));
+                Toast.makeText(this, "Forgot password not implemented in local demo", Toast.LENGTH_SHORT).show()
         );
     }
 
@@ -69,10 +80,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setUpRoleToggle() {
-        // Pre-select based on current selectedRole
         int preselectId = (selectedRole == Role.TENANT) ? R.id.btnTenant : R.id.btnOwner;
         roleToggle.check(preselectId);
-
         roleToggle.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (!isChecked) return;
             if (checkedId == R.id.btnTenant) selectedRole = Role.TENANT;
@@ -81,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void attemptLogin() {
-        // clear previous errors
         tilEmail.setError(null);
         tilPassword.setError(null);
 
@@ -113,20 +121,28 @@ public class LoginActivity extends AppCompatActivity {
 
         if (cancel) return;
 
-        // Simulate a quick network call
         setLoading(true);
-        // Using a View postDelayed to keep it simple (no extra handlers)
+
+        // Tiny delay to show the spinner; real apps would call into a repo/async op.
         etEmail.postDelayed(() -> {
+            boolean ok = userDAO.validateLogin(
+                    email,
+                    password,
+                    selectedRole == Role.TENANT ? "TENANT" : "OWNER"
+            );
             setLoading(false);
-            if (selectedRole == Role.TENANT) {
-                Toast.makeText(this, "Logged in as Tenant", Toast.LENGTH_SHORT).show();
-                // TODO: startActivity(new Intent(this, TenantHomeActivity.class));
+
+            if (ok) {
+                if (selectedRole == Role.TENANT) {
+                    startActivity(new Intent(this, TenantDashboardActivity.class));
+                } else {
+                    startActivity(new Intent(this, OwnerDashboardActivity.class));
+                }
+                finish(); // prevent back to login
             } else {
-                Toast.makeText(this, "Logged in as House Owner", Toast.LENGTH_SHORT).show();
-                // TODO: startActivity(new Intent(this, OwnerHomeActivity.class));
+                Toast.makeText(this, "Invalid credentials or role", Toast.LENGTH_SHORT).show();
             }
-            // finish(); // optional
-        }, 800);
+        }, 250);
     }
 
     private void setLoading(boolean loading) {
@@ -141,5 +157,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString(KEY_ROLE, selectedRole.name());
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        userDAO.close();
     }
 }
