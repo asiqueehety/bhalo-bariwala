@@ -1,4 +1,3 @@
-// app/src/main/java/com/example/bhalobariwala/SignUpActivity.java
 package com.example.bhalobariwala;
 
 import android.os.Bundle;
@@ -13,7 +12,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private TextInputEditText editUsername, editEmail, editPassword, editRetypePassword;
+    private TextInputEditText editUsername, editEmail, editPassword, editRetypePassword, editBuildingId;
     private RadioGroup radioGroupRole;
     private Button btnSignUp;
 
@@ -28,6 +27,7 @@ public class SignUpActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
         editRetypePassword = findViewById(R.id.editRetypePassword);
+        editBuildingId = findViewById(R.id.editBuildingId); // NEW
         radioGroupRole = findViewById(R.id.radioGroupRole);
         btnSignUp = findViewById(R.id.btnSignUp);
 
@@ -39,13 +39,14 @@ public class SignUpActivity extends AppCompatActivity {
             String email = safe(editEmail);
             String password = safe(editPassword);
             String retype = safe(editRetypePassword);
+            String buildingId = safe(editBuildingId); // NEW
 
             int selectedId = radioGroupRole.getCheckedRadioButtonId();
             RadioButton selectedRoleBtn = findViewById(selectedId);
             String role = selectedRoleBtn != null ? selectedRoleBtn.getText().toString().toUpperCase() : "";
 
             if (username.isEmpty() || email.isEmpty() || password.isEmpty() || retype.isEmpty() || role.isEmpty()) {
-                toast("Please fill all fields");
+                toast("Please fill all required fields");
                 return;
             }
             if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -64,15 +65,23 @@ public class SignUpActivity extends AppCompatActivity {
                 toast("Please select a role");
                 return;
             }
+
+            // OPTIONAL: require buildingId only for TENANT or OWNER depending on your logic
+            if (buildingId.isEmpty()) {
+                // if you want building id required, keep this:
+                toast("Please enter Building ID");
+                return;
+            }
+
             if (userDAO.emailExists(email)) {
                 toast("Email already registered");
                 return;
             }
 
-            long id = userDAO.createUser(username, email, password, role);
+            long id = userDAO.createUser(username, email, password, role, buildingId); // pass buildingId
             if (id > 0) {
                 toast("Account created! You can log in now.");
-                finish(); // go back to Login
+                finish(); // go back to Login (or wherever you want)
             } else {
                 toast("Sign up failed. Try again.");
             }
