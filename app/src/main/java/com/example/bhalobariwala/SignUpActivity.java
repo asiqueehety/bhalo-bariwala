@@ -1,6 +1,7 @@
 package com.example.bhalobariwala;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -27,9 +28,20 @@ public class SignUpActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
         editRetypePassword = findViewById(R.id.editRetypePassword);
-        editBuildingId = findViewById(R.id.editBuildingId); // NEW
+        editBuildingId = findViewById(R.id.editBuildingId);
         radioGroupRole = findViewById(R.id.radioGroupRole);
         btnSignUp = findViewById(R.id.btnSignUp);
+
+        View buildingContainer = findViewById(R.id.buildingIdContainer);
+
+        // Toggle Building ID visibility based on selected role
+        radioGroupRole.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.radioTenant) {
+                buildingContainer.setVisibility(View.VISIBLE);
+            } else if (checkedId == R.id.radioOwner) {
+                buildingContainer.setVisibility(View.GONE);
+            }
+        });
 
         userDAO = new UserDAO(this);
         userDAO.open();
@@ -39,7 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
             String email = safe(editEmail);
             String password = safe(editPassword);
             String retype = safe(editRetypePassword);
-            String buildingId = safe(editBuildingId); // NEW
+            String buildingId = safe(editBuildingId);
 
             int selectedId = radioGroupRole.getCheckedRadioButtonId();
             RadioButton selectedRoleBtn = findViewById(selectedId);
@@ -61,14 +73,9 @@ public class SignUpActivity extends AppCompatActivity {
                 toast("Passwords do not match");
                 return;
             }
-            if (!role.equals("OWNER") && !role.equals("TENANT")) {
-                toast("Please select a role");
-                return;
-            }
 
-            // OPTIONAL: require buildingId only for TENANT or OWNER depending on your logic
-            if (buildingId.isEmpty()) {
-                // if you want building id required, keep this:
+            // Require Building ID only for TENANT
+            if (role.equals("TENANT") && buildingId.isEmpty()) {
                 toast("Please enter Building ID");
                 return;
             }
@@ -78,10 +85,10 @@ public class SignUpActivity extends AppCompatActivity {
                 return;
             }
 
-            long id = userDAO.createUser(username, email, password, role, buildingId); // pass buildingId
+            long id = userDAO.createUser(username, email, password, role, buildingId);
             if (id > 0) {
                 toast("Account created! You can log in now.");
-                finish(); // go back to Login (or wherever you want)
+                finish();
             } else {
                 toast("Sign up failed. Try again.");
             }
@@ -92,7 +99,9 @@ public class SignUpActivity extends AppCompatActivity {
         return t.getText() == null ? "" : t.getText().toString().trim();
     }
 
-    private void toast(String msg) { Toast.makeText(this, msg, Toast.LENGTH_SHORT).show(); }
+    private void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onDestroy() {
