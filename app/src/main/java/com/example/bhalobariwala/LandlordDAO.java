@@ -53,22 +53,25 @@ public class LandlordDAO {
         return db.insert(DatabaseHelper.T_LANDLORD, null, v);
     }
 
-    public boolean validate(String email, String rawPassword) {
+    public int validate(String email, String rawPassword) {
         Cursor c = db.query(
                 DatabaseHelper.T_LANDLORD,
-                new String[]{DatabaseHelper.L_PWD_HASH, DatabaseHelper.L_SALT},
+                new String[]{DatabaseHelper.L_ID, DatabaseHelper.L_PWD_HASH, DatabaseHelper.L_SALT},
                 DatabaseHelper.L_EMAIL + "=?",
                 new String[]{email},
                 null, null, null
         );
 
-        boolean ok = false;
+        int id = -1;
         if (c.moveToFirst()) {
-            String storedHash = c.getString(0);
-            String salt = c.getString(1);
-            ok = PasswordUtils.hash(rawPassword, salt).equals(storedHash);
+            String storedHash = c.getString(1);
+            String salt = c.getString(2);
+            if (PasswordUtils.hash(rawPassword, salt).equals(storedHash)) {
+                id = c.getInt(0); // landlord ID
+            }
         }
         c.close();
-        return ok;
+        return id;
     }
+
 }

@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bhalobariwala.LandlordDAO;
 import com.example.bhalobariwala.R;
+import com.example.bhalobariwala.SessionManager;
 import com.example.bhalobariwala.SignUpActivity;
 import com.example.bhalobariwala.TenantDAO;
 import com.example.bhalobariwala.ui.owner.OwnerDashboardActivity;
@@ -120,13 +121,18 @@ public class LoginActivity extends AppCompatActivity {
         setLoading(true);
 
         etEmail.postDelayed(() -> {
-            boolean ok = (selectedRole == Role.OWNER)
+            int userId = (selectedRole == Role.OWNER)
                     ? landlordDAO.validate(email, password)
                     : tenantDAO.validate(email, password);
 
             setLoading(false);
 
-            if (ok) {
+            if (userId != -1) {
+                // Save ID, email, and role in session
+                SessionManager session = new SessionManager(this);
+                session.saveLogin(userId, email, selectedRole.name());
+
+                // Navigate to dashboard
                 if (selectedRole == Role.TENANT) {
                     startActivity(new Intent(this, TenantDashboardActivity.class));
                 } else {
@@ -138,6 +144,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }, 200);
     }
+
 
     private void setLoading(boolean loading) {
         btnLogin.setEnabled(!loading);

@@ -60,22 +60,25 @@ public class TenantDAO {
         return db.insert(DatabaseHelper.T_TENANT, null, v);
     }
 
-    public boolean validate(String email, String rawPassword) {
+    public int validate(String email, String rawPassword) {
         Cursor c = db.query(
                 DatabaseHelper.T_TENANT,
-                new String[]{DatabaseHelper.T_PWD_HASH, DatabaseHelper.T_SALT},
+                new String[]{DatabaseHelper.T_ID, DatabaseHelper.T_PWD_HASH, DatabaseHelper.T_SALT},
                 DatabaseHelper.T_EMAIL + "=?",
                 new String[]{email},
                 null, null, null
         );
 
-        boolean ok = false;
+        int id = -1;
         if (c.moveToFirst()) {
-            String storedHash = c.getString(0);
-            String salt = c.getString(1);
-            ok = PasswordUtils.hash(rawPassword, salt).equals(storedHash);
+            String storedHash = c.getString(1);
+            String salt = c.getString(2);
+            if (PasswordUtils.hash(rawPassword, salt).equals(storedHash)) {
+                id = c.getInt(0); // tenant ID
+            }
         }
         c.close();
-        return ok;
+        return id;
     }
+
 }
