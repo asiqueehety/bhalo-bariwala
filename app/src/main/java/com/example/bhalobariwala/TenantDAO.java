@@ -38,7 +38,7 @@ public class TenantDAO {
         return exists;
     }
 
-    public long create(String name, String email, String password, String contact) {
+    public long create(String name, String email, String password, String contact, String propId, String aptId) {
         String salt = PasswordUtils.generateSalt();
         String hash = PasswordUtils.hash(password, salt);
 
@@ -49,6 +49,9 @@ public class TenantDAO {
         v.put(DatabaseHelper.T_PWD_HASH, hash);
         v.put(DatabaseHelper.T_SALT, salt);
         v.put(DatabaseHelper.T_CREATED, System.currentTimeMillis());
+        v.put(DatabaseHelper.T_PROP_ID, propId);
+        v.put(DatabaseHelper.T_APT_ID, aptId);
+
         // Leave relational columns NULL at signup; link later from app flows:
         // v.put(DatabaseHelper.T_PROP_ID, ...);
         // v.put(DatabaseHelper.T_APT_ID, ...);

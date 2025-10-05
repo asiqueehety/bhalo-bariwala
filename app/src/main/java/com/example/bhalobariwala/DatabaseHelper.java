@@ -94,10 +94,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         T_CREATED + " INTEGER NOT NULL, " +
                         T_PROP_ID + " INTEGER, " +
                         T_APT_ID + " INTEGER UNIQUE, " +  // 1:1-ish (each apt linked to at most one tenant)
-                        T_LID + " INTEGER, " +
+
                         "FOREIGN KEY(" + T_PROP_ID + ") REFERENCES " + T_PROPERTY + "(" + P_ID + ") ON UPDATE CASCADE ON DELETE SET NULL, " +
-                        "FOREIGN KEY(" + T_APT_ID + ") REFERENCES " + T_APARTMENT + "(" + A_ID + ") ON UPDATE CASCADE ON DELETE SET NULL, " +
-                        "FOREIGN KEY(" + T_LID + ") REFERENCES " + T_LANDLORD + "(" + L_ID + ") ON UPDATE CASCADE ON DELETE SET NULL" +
+                        "FOREIGN KEY(" + T_APT_ID + ") REFERENCES " + T_APARTMENT + "(" + A_ID + ") ON UPDATE CASCADE ON DELETE SET NULL " +
                         ")"
         );
 
@@ -138,7 +137,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE INDEX IF NOT EXISTS idx_tenant_email   ON " + T_TENANT   + "(" + T_EMAIL + ")");
         db.execSQL("CREATE INDEX IF NOT EXISTS idx_prop_landlord  ON " + T_PROPERTY + "(" + P_LANDLORDID + ")");
         db.execSQL("CREATE INDEX IF NOT EXISTS idx_apt_prop       ON " + T_APARTMENT+ "(" + A_PROP_ID + ")");
-        db.execSQL("CREATE INDEX IF NOT EXISTS idx_tenant_links   ON " + T_TENANT   + "(" + T_LID + "," + T_PROP_ID + "," + T_APT_ID + ")");
+        db.execSQL("CREATE INDEX IF NOT EXISTS idx_tenant_links   ON " + T_TENANT   + "(" + T_PROP_ID + "," + T_APT_ID + ")");
         db.execSQL("CREATE INDEX IF NOT EXISTS idx_complaints_tid ON " + T_COMPLAINTS+ "(" + C_TID + ")");
     }
 
