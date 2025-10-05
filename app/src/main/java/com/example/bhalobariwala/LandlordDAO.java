@@ -1,4 +1,3 @@
-// app/src/main/java/com/example/bhalobariwala/LandlordDAO.java
 package com.example.bhalobariwala;
 
 import android.content.ContentValues;
@@ -70,5 +69,35 @@ public class LandlordDAO {
         }
         c.close();
         return ok;
+    }
+
+    /** NEW: Return the landlord's primary key by email, or -1 if not found */
+    public long getIdByEmail(String email) {
+        long id = -1L;
+        Cursor c = db.query(
+                DatabaseHelper.T_LANDLORD,
+                new String[]{DatabaseHelper.L_ID},
+                DatabaseHelper.L_EMAIL + "=?",
+                new String[]{email},
+                null, null, null,
+                "1"
+        );
+        if (c.moveToFirst()) {
+            id = c.getLong(0);
+        }
+        c.close();
+        return id;
+    }
+
+    /** OPTIONAL: If you ever need the full row for a landlord by email */
+    public Cursor getByEmail(String email) {
+        return db.query(
+                DatabaseHelper.T_LANDLORD,
+                null,
+                DatabaseHelper.L_EMAIL + "=?",
+                new String[]{email},
+                null, null, null,
+                "1"
+        );
     }
 }

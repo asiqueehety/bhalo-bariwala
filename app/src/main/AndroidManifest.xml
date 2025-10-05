@@ -8,6 +8,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BhaloBariwala">
+
         <activity
             android:name=".ui.owner.OwnerProfileActivity"
             android:exported="false" />
@@ -17,9 +18,16 @@
         <activity
             android:name=".ui.owner.RentCheckActivity"
             android:exported="false" />
+
+        <!-- Properties list screen -->
         <activity
             android:name=".ui.owner.PropertiesActivity"
             android:exported="false" />
+        <!-- Add property screen (MUST be declared so FAB can launch) -->
+        <activity
+            android:name=".ui.owner.AddPropertyActivity"
+            android:exported="false" />
+
         <activity
             android:name=".ui.tenant.TenantDirectoryActivity"
             android:exported="false" />
@@ -29,21 +37,23 @@
         <activity
             android:name=".ui.tenant.TenantProfileActivity"
             android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".SignUpActivity"
             android:exported="true" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true" />
+
         <activity android:name=".ui.owner.OwnerDashboardActivity" />
         <activity android:name=".ui.tenant.TenantDashboardActivity" />
     </application>
