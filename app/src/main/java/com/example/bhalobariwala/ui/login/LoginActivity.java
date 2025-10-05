@@ -10,11 +10,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.bhalobariwala.LandlordDAO;
 import com.example.bhalobariwala.R;
-import com.example.bhalobariwala.UserDAO;
+import com.example.bhalobariwala.SignUpActivity;
+import com.example.bhalobariwala.TenantDAO;
 import com.example.bhalobariwala.ui.owner.OwnerDashboardActivity;
 import com.example.bhalobariwala.ui.tenant.TenantDashboardActivity;
-import com.example.bhalobariwala.SignUpActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -34,7 +35,8 @@ public class LoginActivity extends AppCompatActivity {
     private enum Role { TENANT, OWNER }
     private Role selectedRole = Role.TENANT;
 
-    private UserDAO userDAO;
+    private LandlordDAO landlordDAO;
+    private TenantDAO tenantDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,27 +45,21 @@ public class LoginActivity extends AppCompatActivity {
 
         bindViews();
 
-        userDAO = new UserDAO(this);
-        userDAO.open();
+        landlordDAO = new LandlordDAO(this); landlordDAO.open();
+        tenantDAO   = new TenantDAO(this);   tenantDAO.open();
 
         if (savedInstanceState != null) {
             String saved = savedInstanceState.getString(KEY_ROLE, Role.TENANT.name());
-            try {
-                selectedRole = Role.valueOf(saved);
-            } catch (IllegalArgumentException ignore) {
-                selectedRole = Role.TENANT;
-            }
+            try { selectedRole = Role.valueOf(saved); } catch (IllegalArgumentException ignore) { selectedRole = Role.TENANT; }
         }
         setUpRoleToggle();
 
         btnLogin.setOnClickListener(v -> attemptLogin());
 
-        // "Create account" text -> open Sign Up screen
         findViewById(R.id.tvSignup).setOnClickListener(v ->
                 startActivity(new Intent(this, SignUpActivity.class))
         );
 
-        // "Forgot password" placeholder
         findViewById(R.id.tvForgot).setOnClickListener(v ->
                 Toast.makeText(this, "Forgot password not implemented in local demo", Toast.LENGTH_SHORT).show()
         );
@@ -123,13 +119,11 @@ public class LoginActivity extends AppCompatActivity {
 
         setLoading(true);
 
-        // Tiny delay to show the spinner; real apps would call into a repo/async op.
         etEmail.postDelayed(() -> {
-            boolean ok = userDAO.validateLogin(
-                    email,
-                    password,
-                    selectedRole == Role.TENANT ? "TENANT" : "OWNER"
-            );
+            boolean ok = (selectedRole == Role.OWNER)
+                    ? landlordDAO.validate(email, password)
+                    : tenantDAO.validate(email, password);
+
             setLoading(false);
 
             if (ok) {
@@ -138,11 +132,11 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     startActivity(new Intent(this, OwnerDashboardActivity.class));
                 }
-                finish(); // prevent back to login
+                finish();
             } else {
-                Toast.makeText(this, "Invalid credentials or role", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
             }
-        }, 250);
+        }, 200);
     }
 
     private void setLoading(boolean loading) {
@@ -162,6 +156,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        userDAO.close();
+        landlordDAO.close();
+        tenantDAO.close();
     }
 }
