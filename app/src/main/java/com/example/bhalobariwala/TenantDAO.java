@@ -1,4 +1,3 @@
-// app/src/main/java/com/example/bhalobariwala/TenantDAO.java
 package com.example.bhalobariwala;
 
 import android.content.ContentValues;
@@ -52,10 +51,7 @@ public class TenantDAO {
         v.put(DatabaseHelper.T_PROP_ID, propId);
         v.put(DatabaseHelper.T_APT_ID, aptId);
 
-        // Leave relational columns NULL at signup; link later from app flows:
-        // v.put(DatabaseHelper.T_PROP_ID, ...);
-        // v.put(DatabaseHelper.T_APT_ID, ...);
-        // v.put(DatabaseHelper.T_LID, ...);
+        // If you link to landlord/property later, leave those FKs null here.
 
         return db.insert(DatabaseHelper.T_TENANT, null, v);
     }
@@ -81,4 +77,33 @@ public class TenantDAO {
         return id;
     }
 
+    /** NEW: Return the tenant's primary key by email, or -1 if not found */
+    public long getIdByEmail(String email) {
+        long id = -1L;
+        Cursor c = db.query(
+                DatabaseHelper.T_TENANT,
+                new String[]{DatabaseHelper.T_ID},
+                DatabaseHelper.T_EMAIL + "=?",
+                new String[]{email},
+                null, null, null,
+                "1"
+        );
+        if (c.moveToFirst()) {
+            id = c.getLong(0);
+        }
+        c.close();
+        return id;
+    }
+
+    /** OPTIONAL: If you ever need the full row for a tenant by email */
+    public Cursor getByEmail(String email) {
+        return db.query(
+                DatabaseHelper.T_TENANT,
+                null,
+                DatabaseHelper.T_EMAIL + "=?",
+                new String[]{email},
+                null, null, null,
+                "1"
+        );
+    }
 }

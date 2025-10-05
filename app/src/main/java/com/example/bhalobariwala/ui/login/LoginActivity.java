@@ -1,4 +1,3 @@
-// app/src/main/java/com/example/bhalobariwala/ui/login/LoginActivity.java
 package com.example.bhalobariwala.ui.login;
 
 import android.content.Intent;
@@ -120,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
 
         setLoading(true);
 
+        // Simulate async work
         etEmail.postDelayed(() -> {
             int userId = (selectedRole == Role.OWNER)
                     ? landlordDAO.validate(email, password)
@@ -134,8 +134,26 @@ public class LoginActivity extends AppCompatActivity {
 
                 // Navigate to dashboard
                 if (selectedRole == Role.TENANT) {
+                    // Resolve tenant id from your DAO (ensure this exists in your DAO)
+                    long tenantIdFromDB = tenantDAO.getIdByEmail(email); // <-- implement if missing
+
+                    // Store for later filtering/use
+                    getSharedPreferences("auth", MODE_PRIVATE)
+                            .edit()
+                            .putLong("current_tenant_id", tenantIdFromDB)
+                            .apply();
+
                     startActivity(new Intent(this, TenantDashboardActivity.class));
                 } else {
+                    // Resolve landlord id from your DAO (ensure this exists in your DAO)
+                    long landlordIdFromDB = landlordDAO.getIdByEmail(email); // <-- implement if missing
+
+                    // Store for later filtering/use
+                    getSharedPreferences("auth", MODE_PRIVATE)
+                            .edit()
+                            .putLong("current_landlord_id", landlordIdFromDB)
+                            .apply();
+
                     startActivity(new Intent(this, OwnerDashboardActivity.class));
                 }
                 finish();
