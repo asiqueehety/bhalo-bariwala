@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    android:elevation="6dp"
+    android:padding="16dp"
+    android:backgroundTint="#1A1F36"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp">
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical">
+
+<TextView
+    android:id="@+id/tvTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Complaint Title"
+    android:textColor="#FFFFFF"
+android:textSize="18sp"
+android:textStyle="bold" />
+
+<TextView
+    android:id="@+id/tvDesc"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Complaint Description"
+    android:textColor="#CCCCCC"
+android:textSize="14sp"
+android:paddingTop="4dp" />
+
+<TextView
+    android:id="@+id/tvProperty"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Property ID / Name"
+    android:textColor="#E0B3FF"
+android:textSize="14sp"
+android:paddingTop="4dp" />
+
+<TextView
+    android:id="@+id/tvApartment"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Apartment ID"
+    android:textColor="#E0B3FF"
+    android:textSize="14sp"
+    android:paddingTop="4dp" />
+
+<TextView
+    android:id="@+id/tvType"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Complaint Type"
+    android:textColor="#FFCC80"
+android:textSize="14sp"
+android:textStyle="italic"
+android:paddingTop="6dp" />
+
+</LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
