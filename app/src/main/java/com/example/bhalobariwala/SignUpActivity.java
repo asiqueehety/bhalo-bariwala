@@ -1,3 +1,4 @@
+// app/src/main/java/com/example/bhalobariwala/SignUpActivity.java
 package com.example.bhalobariwala;
 
 import android.os.Bundle;
@@ -12,11 +13,12 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private TextInputEditText editUsername, editEmail, editPassword, editRetypePassword, editBuildingId;
+    private TextInputEditText editUsername, editEmail, editPassword, editRetypePassword, editBuildingId; // used as contact for now
     private RadioGroup radioGroupRole;
     private Button btnSignUp;
 
-    private UserDAO userDAO;
+    private LandlordDAO landlordDAO;
+    private TenantDAO tenantDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,24 +29,25 @@ public class SignUpActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
         editRetypePassword = findViewById(R.id.editRetypePassword);
-        editBuildingId = findViewById(R.id.editBuildingId); // NEW
+        editBuildingId = findViewById(R.id.editBuildingId); // treating as "contact" for now
         radioGroupRole = findViewById(R.id.radioGroupRole);
         btnSignUp = findViewById(R.id.btnSignUp);
 
-        userDAO = new UserDAO(this);
-        userDAO.open();
+        landlordDAO = new LandlordDAO(this); landlordDAO.open();
+        tenantDAO   = new TenantDAO(this);   tenantDAO.open();
 
         btnSignUp.setOnClickListener(v -> {
-            String username = safe(editUsername);
-            String email = safe(editEmail);
-            String password = safe(editPassword);
-            String retype = safe(editRetypePassword);
-            String buildingId = safe(editBuildingId); // NEW
+            String username  = safe(editUsername);
+            String email     = safe(editEmail);
+            String password  = safe(editPassword);
+            String retype    = safe(editRetypePassword);
+            String contact   = safe(editBuildingId); // optional; stored as contact
 
             int selectedId = radioGroupRole.getCheckedRadioButtonId();
             RadioButton selectedRoleBtn = findViewById(selectedId);
             String role = selectedRoleBtn != null ? selectedRoleBtn.getText().toString().toUpperCase() : "";
 
+            // ---- validations ----
             if (username.isEmpty() || email.isEmpty() || password.isEmpty() || retype.isEmpty() || role.isEmpty()) {
                 toast("Please fill all required fields");
                 return;
@@ -66,22 +69,27 @@ public class SignUpActivity extends AppCompatActivity {
                 return;
             }
 
-            // OPTIONAL: require buildingId only for TENANT or OWNER depending on your logic
-            if (buildingId.isEmpty()) {
-                // if you want building id required, keep this:
-                toast("Please enter Building ID");
-                return;
+            // contact is optional; remove this block if you want to make it required
+            // if (contact.isEmpty()) { toast("Please enter contact"); return; }
+
+            long id;
+            if (role.equals("OWNER")) {
+                if (landlordDAO.emailExists(email)) {
+                    toast("Email already registered (owner)");
+                    return;
+                }
+                id = landlordDAO.create(username, email, password, contact);
+            } else { // TENANT
+                if (tenantDAO.emailExists(email)) {
+                    toast("Email already registered (tenant)");
+                    return;
+                }
+                id = tenantDAO.create(username, email, password, contact);
             }
 
-            if (userDAO.emailExists(email)) {
-                toast("Email already registered");
-                return;
-            }
-
-            long id = userDAO.createUser(username, email, password, role, buildingId); // pass buildingId
             if (id > 0) {
                 toast("Account created! You can log in now.");
-                finish(); // go back to Login (or wherever you want)
+                finish();
             } else {
                 toast("Sign up failed. Try again.");
             }
@@ -92,11 +100,14 @@ public class SignUpActivity extends AppCompatActivity {
         return t.getText() == null ? "" : t.getText().toString().trim();
     }
 
-    private void toast(String msg) { Toast.makeText(this, msg, Toast.LENGTH_SHORT).show(); }
+    private void toast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        userDAO.close();
+        landlordDAO.close();
+        tenantDAO.close();
     }
 }
