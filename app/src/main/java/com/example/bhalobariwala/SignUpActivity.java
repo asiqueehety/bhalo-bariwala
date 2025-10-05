@@ -1,7 +1,7 @@
+// app/src/main/java/com/example/bhalobariwala/SignUpActivity.java
 package com.example.bhalobariwala;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -13,11 +13,12 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private TextInputEditText editUsername, editEmail, editPassword, editRetypePassword, editBuildingId;
+    private TextInputEditText editUsername, editEmail, editPassword, editRetypePassword, editBuildingId; // used as contact for now
     private RadioGroup radioGroupRole;
     private Button btnSignUp;
 
-    private UserDAO userDAO;
+    private LandlordDAO landlordDAO;
+    private TenantDAO tenantDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,35 +29,25 @@ public class SignUpActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
         editRetypePassword = findViewById(R.id.editRetypePassword);
-        editBuildingId = findViewById(R.id.editBuildingId);
+        editBuildingId = findViewById(R.id.editBuildingId); // treating as "contact" for now
         radioGroupRole = findViewById(R.id.radioGroupRole);
         btnSignUp = findViewById(R.id.btnSignUp);
 
-        View buildingContainer = findViewById(R.id.buildingIdContainer);
-
-        // Toggle Building ID visibility based on selected role
-        radioGroupRole.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.radioTenant) {
-                buildingContainer.setVisibility(View.VISIBLE);
-            } else if (checkedId == R.id.radioOwner) {
-                buildingContainer.setVisibility(View.GONE);
-            }
-        });
-
-        userDAO = new UserDAO(this);
-        userDAO.open();
+        landlordDAO = new LandlordDAO(this); landlordDAO.open();
+        tenantDAO   = new TenantDAO(this);   tenantDAO.open();
 
         btnSignUp.setOnClickListener(v -> {
-            String username = safe(editUsername);
-            String email = safe(editEmail);
-            String password = safe(editPassword);
-            String retype = safe(editRetypePassword);
-            String buildingId = safe(editBuildingId);
+            String username  = safe(editUsername);
+            String email     = safe(editEmail);
+            String password  = safe(editPassword);
+            String retype    = safe(editRetypePassword);
+            String contact   = safe(editBuildingId); // optional; stored as contact
 
             int selectedId = radioGroupRole.getCheckedRadioButtonId();
             RadioButton selectedRoleBtn = findViewById(selectedId);
             String role = selectedRoleBtn != null ? selectedRoleBtn.getText().toString().toUpperCase() : "";
 
+            // ---- validations ----
             if (username.isEmpty() || email.isEmpty() || password.isEmpty() || retype.isEmpty() || role.isEmpty()) {
                 toast("Please fill all required fields");
                 return;
@@ -73,19 +64,29 @@ public class SignUpActivity extends AppCompatActivity {
                 toast("Passwords do not match");
                 return;
             }
-
-            // Require Building ID only for TENANT
-            if (role.equals("TENANT") && buildingId.isEmpty()) {
-                toast("Please enter Building ID");
+            if (!role.equals("OWNER") && !role.equals("TENANT")) {
+                toast("Please select a role");
                 return;
             }
 
-            if (userDAO.emailExists(email)) {
-                toast("Email already registered");
-                return;
+            // contact is optional; remove this block if you want to make it required
+            // if (contact.isEmpty()) { toast("Please enter contact"); return; }
+
+            long id;
+            if (role.equals("OWNER")) {
+                if (landlordDAO.emailExists(email)) {
+                    toast("Email already registered (owner)");
+                    return;
+                }
+                id = landlordDAO.create(username, email, password, contact);
+            } else { // TENANT
+                if (tenantDAO.emailExists(email)) {
+                    toast("Email already registered (tenant)");
+                    return;
+                }
+                id = tenantDAO.create(username, email, password, contact);
             }
 
-            long id = userDAO.createUser(username, email, password, role, buildingId);
             if (id > 0) {
                 toast("Account created! You can log in now.");
                 finish();
@@ -106,6 +107,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        userDAO.close();
+        landlordDAO.close();
+        tenantDAO.close();
     }
 }
