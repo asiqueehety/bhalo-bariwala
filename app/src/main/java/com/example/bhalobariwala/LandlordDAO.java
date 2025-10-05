@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.bhalobariwala.security.PasswordUtils;
+import com.example.bhalobariwala.ui.owner.OwnerProfileActivity;
 
 public class LandlordDAO {
 
@@ -17,14 +18,17 @@ public class LandlordDAO {
         helper = new DatabaseHelper(ctx);
     }
 
+    // Open DB
     public void open() {
         db = helper.getWritableDatabase();
     }
 
+    // Close DB
     public void close() {
         if (db != null && db.isOpen()) db.close();
     }
 
+    // Check if email already exists
     public boolean emailExists(String email) {
         Cursor c = db.query(
                 DatabaseHelper.T_LANDLORD,
@@ -33,24 +37,25 @@ public class LandlordDAO {
                 new String[]{email},
                 null, null, null
         );
-        boolean ok = c.moveToFirst();
+        boolean exists = c.moveToFirst();
         c.close();
-        return ok;
+        return exists;
     }
 
+    // Create new landlord
     public long create(String name, String email, String password, String contact) {
         String salt = PasswordUtils.generateSalt();
         String hash = PasswordUtils.hash(password, salt);
 
-        ContentValues v = new ContentValues();
-        v.put(DatabaseHelper.L_NAME, name);
-        v.put(DatabaseHelper.L_EMAIL, email);
-        v.put(DatabaseHelper.L_CONTACT, contact);
-        v.put(DatabaseHelper.L_PWD_HASH, hash);
-        v.put(DatabaseHelper.L_SALT, salt);
-        v.put(DatabaseHelper.L_CREATED, System.currentTimeMillis());
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelper.L_NAME, name);
+        values.put(DatabaseHelper.L_EMAIL, email);
+        values.put(DatabaseHelper.L_CONTACT, contact);
+        values.put(DatabaseHelper.L_PWD_HASH, hash);
+        values.put(DatabaseHelper.L_SALT, salt);
+        values.put(DatabaseHelper.L_CREATED, System.currentTimeMillis());
 
-        return db.insert(DatabaseHelper.T_LANDLORD, null, v);
+        return db.insert(DatabaseHelper.T_LANDLORD, null, values);
     }
 
     public int validate(String email, String rawPassword) {
