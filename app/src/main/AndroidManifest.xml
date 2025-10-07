@@ -38,6 +38,17 @@
             android:name=".ui.tenant.TenantProfileActivity"
             android:exported="false" />
 
+        <!-- NEW: Chat Activities -->
+        <activity
+            android:name=".ui.chat.TenantChatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.chat.LandlordMessagesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.chat.LandlordChatActivity"
+            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

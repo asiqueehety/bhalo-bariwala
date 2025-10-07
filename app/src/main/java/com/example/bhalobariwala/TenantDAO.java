@@ -204,4 +204,21 @@ public class TenantDAO {
             return false;
         }
     }
+
+    /** NEW: Get landlord ID for a tenant by getting it from their property */
+    public int getLandlordIdForTenant(long tenantId) {
+        String query = "SELECT p." + DatabaseHelper.P_LANDLORDID + " " +
+                "FROM " + DatabaseHelper.T_TENANT + " t " +
+                "INNER JOIN " + DatabaseHelper.T_PROPERTY + " p " +
+                "ON t." + DatabaseHelper.T_PROP_ID + " = p." + DatabaseHelper.P_ID + " " +
+                "WHERE t." + DatabaseHelper.T_ID + " = ?";
+
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(tenantId)});
+        int landlordId = -1;
+        if (c.moveToFirst()) {
+            landlordId = c.getInt(0);
+        }
+        c.close();
+        return landlordId;
+    }
 }

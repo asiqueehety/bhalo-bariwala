@@ -13,6 +13,7 @@ import com.google.android.material.card.MaterialCardView;
 public class TenantDashboardActivity extends AppCompatActivity {
 
     private MaterialCardView cardProfile, cardComplaints, cardDirectory;
+    private MaterialCardView cardMessageLandlord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class TenantDashboardActivity extends AppCompatActivity {
         cardProfile = findViewById(R.id.cardProfile);
         cardComplaints = findViewById(R.id.cardComplaints);
         cardDirectory = findViewById(R.id.cardDirectory);
+        cardMessageLandlord = findViewById(R.id.cardMessageLandlord);
 
         // Click listeners
         cardProfile.setOnClickListener(v -> {
@@ -38,6 +40,12 @@ public class TenantDashboardActivity extends AppCompatActivity {
         cardDirectory.setOnClickListener(v -> {
             Toast.makeText(this, "Opening Directory...", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, TenantDirectoryActivity.class));
+        });
+
+        // NEW: Message landlord click listener
+        cardMessageLandlord.setOnClickListener(v -> {
+            Toast.makeText(this, "Opening Messages...", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, com.example.bhalobariwala.ui.chat.TenantChatActivity.class));
         });
     }
 }
