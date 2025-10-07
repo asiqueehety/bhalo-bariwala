@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FAFAFA">
 
     <LinearLayout
         android:orientation="vertical"
@@ -11,29 +12,52 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- Title -->
         <TextView
             android:text="Your Properties"
             android:textStyle="bold"
-            android:textSize="20sp"
+            android:textSize="24sp"
+            android:textColor="#1A1A1A"
+            android:layout_marginTop="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <!-- Subtle divider under the title -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#E5E5E5"/>
+
+        <!-- Empty state -->
         <TextView
             android:id="@+id/tvEmpty"
             android:text="No properties yet. Tap + to add one."
-            android:visibility="gone"
-            android:paddingTop="12dp"
+            android:textSize="14sp"
+            android:textColor="#777777"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="8dp"
+            android:paddingTop="4dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
 
+        <!-- List -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvProperties"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:paddingTop="8dp"/>
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:clipToPadding="false"
+            android:overScrollMode="always"
+            android:fadingEdgeLength="0dp"/>
+
     </LinearLayout>
 
+    <!-- Floating Action Button (same ID, just nicer visuals) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddProperty"
         android:layout_width="wrap_content"
@@ -41,5 +65,9 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="Add Property"
-        android:src="@android:drawable/ic_input_add"/>
+        android:src="@android:drawable/ic_input_add"
+        android:tint="#FFFFFF"
+        android:backgroundTint="#6750A4"
+        android:elevation="8dp"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
