@@ -112,7 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
                 toast("Account created! You can log in now.");
                 finish();
             } else {
-                toast("Sign up failed. Try again.");
+                toast("Sign up failed. Try again. 223232");
             }
         });
     }
