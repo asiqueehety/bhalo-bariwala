@@ -43,3 +43,4 @@
         android:contentDescription="Add Property"
         android:src="@android:drawable/ic_input_add"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
