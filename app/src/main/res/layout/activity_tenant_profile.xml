@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="#F5F7FA"
     tools:context=".ui.tenant.TenantProfileActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,31 +14,16 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Header -->
-        <TextView
-            android:id="@+id/tvProfileHeader"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="My Profile"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <!-- Profile Card -->
+        <!-- Header Card with Gradient Background -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/profileCard"
+            android:id="@+id/headerCard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
+            android:layout_marginTop="8dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp"
             app:strokeWidth="0dp"
-            app:layout_constraintTop_toBottomOf="@id/tvProfileHeader"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
@@ -45,7 +31,49 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:background="@drawable/gradient_header"
+                android:padding="24dp">
+
+                <TextView
+                    android:id="@+id/tvProfileHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My Profile"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Manage your account information"
+                    android:textSize="14sp"
+                    android:textColor="#E0E0E0"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Profile Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/profileCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:strokeWidth="0dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:layout_constraintTop_toBottomOf="@id/headerCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
 
                 <!-- Name Field -->
                 <TextView
@@ -53,9 +81,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Full Name"
-                    android:textSize="12sp"
-                    android:textColor="#666666"
-                    android:textStyle="bold" />
+                    android:textSize="13sp"
+                    android:textColor="#6C63FF"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
 
                 <EditText
                     android:id="@+id/etTenantName"
@@ -64,16 +93,19 @@
                     android:hint="Enter your name"
                     android:inputType="textPersonName"
                     android:textSize="16sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="#2C3E50"
+                    android:textColorHint="#95A5A6"
                     android:enabled="false"
                     android:background="@android:color/transparent"
-                    android:layout_marginBottom="16dp" />
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_marginBottom="12dp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#E0E0E0"
-                    android:layout_marginBottom="16dp" />
+                    android:background="#E8EAF6"
+                    android:layout_marginBottom="20dp" />
 
                 <!-- Email Field -->
                 <TextView
@@ -81,9 +113,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email Address"
-                    android:textSize="12sp"
-                    android:textColor="#666666"
-                    android:textStyle="bold" />
+                    android:textSize="13sp"
+                    android:textColor="#6C63FF"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
 
                 <EditText
                     android:id="@+id/etTenantEmail"
@@ -92,16 +125,19 @@
                     android:hint="Enter your email"
                     android:inputType="textEmailAddress"
                     android:textSize="16sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="#2C3E50"
+                    android:textColorHint="#95A5A6"
                     android:enabled="false"
                     android:background="@android:color/transparent"
-                    android:layout_marginBottom="16dp" />
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_marginBottom="12dp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#E0E0E0"
-                    android:layout_marginBottom="16dp" />
+                    android:background="#E8EAF6"
+                    android:layout_marginBottom="20dp" />
 
                 <!-- Contact Field -->
                 <TextView
@@ -109,9 +145,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Contact Number"
-                    android:textSize="12sp"
-                    android:textColor="#666666"
-                    android:textStyle="bold" />
+                    android:textSize="13sp"
+                    android:textColor="#6C63FF"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
 
                 <EditText
                     android:id="@+id/etTenantContact"
@@ -120,16 +157,19 @@
                     android:hint="Enter your contact number"
                     android:inputType="phone"
                     android:textSize="16sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="#2C3E50"
+                    android:textColorHint="#95A5A6"
                     android:enabled="false"
                     android:background="@android:color/transparent"
-                    android:layout_marginBottom="16dp" />
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_marginBottom="12dp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#E0E0E0"
-                    android:layout_marginBottom="16dp" />
+                    android:background="#E8EAF6"
+                    android:layout_marginBottom="20dp" />
 
                 <!-- Property ID Field -->
                 <TextView
@@ -137,9 +177,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Property ID"
-                    android:textSize="12sp"
-                    android:textColor="#666666"
-                    android:textStyle="bold" />
+                    android:textSize="13sp"
+                    android:textColor="#6C63FF"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
 
                 <EditText
                     android:id="@+id/etTenantPropertyId"
@@ -148,16 +189,19 @@
                     android:hint="Property ID"
                     android:inputType="number"
                     android:textSize="16sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="#2C3E50"
+                    android:textColorHint="#95A5A6"
                     android:enabled="false"
                     android:background="@android:color/transparent"
-                    android:layout_marginBottom="16dp" />
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_marginBottom="12dp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#E0E0E0"
-                    android:layout_marginBottom="16dp" />
+                    android:background="#E8EAF6"
+                    android:layout_marginBottom="20dp" />
 
                 <!-- Apartment ID Field -->
                 <TextView
@@ -165,9 +209,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Apartment ID"
-                    android:textSize="12sp"
-                    android:textColor="#666666"
-                    android:textStyle="bold" />
+                    android:textSize="13sp"
+                    android:textColor="#6C63FF"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
 
                 <EditText
                     android:id="@+id/etTenantApartmentId"
@@ -176,16 +221,19 @@
                     android:hint="Apartment ID"
                     android:inputType="number"
                     android:textSize="16sp"
-                    android:textColor="@android:color/black"
+                    android:textColor="#2C3E50"
+                    android:textColorHint="#95A5A6"
                     android:enabled="false"
                     android:background="@android:color/transparent"
-                    android:layout_marginBottom="16dp" />
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:layout_marginBottom="12dp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#E0E0E0"
-                    android:layout_marginBottom="16dp" />
+                    android:background="#E8EAF6"
+                    android:layout_marginBottom="20dp" />
 
                 <!-- Created Date -->
                 <TextView
@@ -193,9 +241,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Member Since"
-                    android:textSize="12sp"
-                    android:textColor="#666666"
-                    android:textStyle="bold" />
+                    android:textSize="13sp"
+                    android:textColor="#6C63FF"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp" />
 
                 <TextView
                     android:id="@+id/tvTenantCreatedDate"
@@ -203,8 +252,9 @@
                     android:layout_height="wrap_content"
                     android:text="N/A"
                     android:textSize="16sp"
-                    android:textColor="@android:color/black"
-                    android:layout_marginBottom="8dp" />
+                    android:textColor="#2C3E50"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp" />
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -217,8 +267,10 @@
             android:text="Edit Profile"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:backgroundTint="#4CAF50"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#6C63FF"
             android:layout_marginTop="24dp"
+            app:cornerRadius="12dp"
             app:layout_constraintTop_toBottomOf="@id/profileCard"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -231,8 +283,10 @@
             android:text="Change Password"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:backgroundTint="#2196F3"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#00BCD4"
             android:layout_marginTop="12dp"
+            app:cornerRadius="12dp"
             app:layout_constraintTop_toBottomOf="@id/btnEditProfile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -245,9 +299,11 @@
             android:text="Logout"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:backgroundTint="#F44336"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#FF5252"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="24dp"
+            app:cornerRadius="12dp"
             app:layout_constraintTop_toBottomOf="@id/btnChangePassword"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
