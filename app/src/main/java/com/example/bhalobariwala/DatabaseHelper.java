@@ -10,7 +10,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // === DB meta ===
     private static final String DATABASE_NAME = "bhalobariwala.db";
     // Bump when schema changes
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
 
     // === LANDLORD ===
     public static final String T_LANDLORD   = "landlord";
@@ -55,6 +55,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String C_DESC       = "c_desc";
     public static final String C_TID        = "c_tid";   // -> tenant.t_id
     public static final String C_TYPE       = "c_type";  // {electricity, gas, water, security, maintenance}
+
+    // === MESSAGES ===
+    public static final String T_MESSAGES   = "messages";
+    public static final String M_ID         = "m_id";
+    public static final String M_LANDLORD_ID = "m_landlord_id";  // -> landlord.l_id
+    public static final String M_TENANT_ID  = "m_tenant_id";     // -> tenant.t_id
+    public static final String M_SENDER_TYPE = "m_sender_type";  // 'landlord' or 'tenant'
+    public static final String M_MESSAGE    = "m_message";
+    public static final String M_TIMESTAMP  = "m_timestamp";
+    public static final String M_IS_READ    = "m_is_read";       // 0 or 1
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -132,6 +142,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         ")"
         );
 
+        // --- Messages table ---
+        db.execSQL(
+                "CREATE TABLE " + T_MESSAGES + " (" +
+                        M_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        M_LANDLORD_ID + " INTEGER, " +
+                        M_TENANT_ID + " INTEGER, " +
+                        M_SENDER_TYPE + " TEXT NOT NULL CHECK(" + M_SENDER_TYPE + " IN ('landlord','tenant')), " +
+                        M_MESSAGE + " TEXT NOT NULL, " +
+                        M_TIMESTAMP + " INTEGER NOT NULL, " +
+                        M_IS_READ + " INTEGER NOT NULL CHECK(" + M_IS_READ + " IN (0,1)), " +
+
+                        "FOREIGN KEY(" + M_LANDLORD_ID + ") REFERENCES " + T_LANDLORD + "(" + L_ID + ") ON UPDATE CASCADE ON DELETE SET NULL, " +
+                        "FOREIGN KEY(" + M_TENANT_ID + ") REFERENCES " + T_TENANT + "(" + T_ID + ") ON UPDATE CASCADE ON DELETE SET NULL" +
+                        ")"
+        );
+
         // --- Indexes ---
         db.execSQL("CREATE INDEX IF NOT EXISTS idx_landlord_email ON " + T_LANDLORD + "(" + L_EMAIL + ")");
         db.execSQL("CREATE INDEX IF NOT EXISTS idx_tenant_email   ON " + T_TENANT   + "(" + T_EMAIL + ")");
@@ -139,6 +165,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE INDEX IF NOT EXISTS idx_apt_prop       ON " + T_APARTMENT+ "(" + A_PROP_ID + ")");
         db.execSQL("CREATE INDEX IF NOT EXISTS idx_tenant_links   ON " + T_TENANT   + "(" + T_PROP_ID + "," + T_APT_ID + ")");
         db.execSQL("CREATE INDEX IF NOT EXISTS idx_complaints_tid ON " + T_COMPLAINTS+ "(" + C_TID + ")");
+        db.execSQL("CREATE INDEX IF NOT EXISTS idx_messages_tenant ON " + T_MESSAGES + "(" + M_TENANT_ID + ")");
+        db.execSQL("CREATE INDEX IF NOT EXISTS idx_messages_landlord ON " + T_MESSAGES + "(" + M_LANDLORD_ID + ")");
     }
 
     @Override
@@ -153,6 +181,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL("DROP TABLE IF EXISTS " + T_PROPERTY);
             db.execSQL("DROP TABLE IF EXISTS " + T_TENANT);
             db.execSQL("DROP TABLE IF EXISTS " + T_LANDLORD);
+            db.execSQL("DROP TABLE IF EXISTS " + T_MESSAGES);
             onCreate(db);
             db.setTransactionSuccessful();
         } finally {

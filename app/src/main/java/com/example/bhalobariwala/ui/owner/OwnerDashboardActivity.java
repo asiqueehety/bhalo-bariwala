@@ -13,6 +13,7 @@ import com.google.android.material.card.MaterialCardView;
 public class OwnerDashboardActivity extends AppCompatActivity {
 
     private MaterialCardView cardProperties, cardRentCheck, cardComplaints, cardOwnerProfile;
+    private MaterialCardView cardMessages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class OwnerDashboardActivity extends AppCompatActivity {
         cardRentCheck = findViewById(R.id.cardRentCheck);
         cardComplaints = findViewById(R.id.cardComplaints);
         cardOwnerProfile = findViewById(R.id.cardOwnerProfile);
+        cardMessages = findViewById(R.id.cardMessages);
 
         // Set click listeners
         cardProperties.setOnClickListener(v ->{
@@ -45,5 +47,11 @@ public class OwnerDashboardActivity extends AppCompatActivity {
                         Toast.makeText(this, "Owner Profile clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(this, OwnerProfileActivity.class));}
         );
+
+        // NEW: Messages click listener
+        cardMessages.setOnClickListener(v -> {
+                        Toast.makeText(this, "Messages clicked", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(this, com.example.bhalobariwala.ui.chat.LandlordMessagesActivity.class));
+        });
     }
 }
