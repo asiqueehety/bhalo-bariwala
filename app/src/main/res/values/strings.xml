@@ -19,5 +19,14 @@
     <string name="complaint_add">Add Complaint</string>
     <string name="complaint_empty">No complaints found for your building.</string>
 
+    <string-array name="complaint_types">
+        <item>electricity</item>
+        <item>gas</item>
+        <item>water</item>
+        <item>security</item>
+        <item>maintenance</item>
+    </string-array>
+
+
 </resources>
 
