@@ -149,6 +149,41 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- View/Add Apartments Section -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardApartments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp"
+            android:backgroundTint="#9C27B0">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <ImageView
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@android:drawable/ic_menu_view"
+                    android:contentDescription="Apartments Icon"
+                    android:padding="8dp"
+                    android:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View/Add Apartments"
+                    android:textSize="18sp"
+                    android:textColor="@color/bb_on_primary"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="16dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <!-- Messages Section -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardMessages"
