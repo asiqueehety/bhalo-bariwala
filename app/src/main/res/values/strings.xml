@@ -10,4 +10,14 @@
     <string name="btn_login">Sign in</string>
     <string name="btn_forgot">Forgot password?</string>
     <string name="btn_signup">Create account</string>
+
+    <!-- Tenant Complaints -->
+    <string name="tenant_complaints_title">Tenant Complaints</string>
+    <string name="complaint_title_hint">Complaint Title</string>
+    <string name="complaint_desc_hint">Describe your issue</string>
+    <string name="complaint_type_hint">Complaint Type</string>
+    <string name="complaint_add">Add Complaint</string>
+    <string name="complaint_empty">No complaints found for your building.</string>
+
 </resources>
+
