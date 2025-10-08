@@ -10,29 +10,40 @@
     android:elevation="2dp">
 
     <TextView
-        android:id="@+id/c_title"
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:text="Complaint Title" />
 
     <TextView
-        android:id="@+id/c_type"
+        android:id="@+id/tvDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#666" />
+        android:textColor="#555"
+        android:text="Complaint description..." />
 
     <TextView
-        android:id="@+id/c_desc"
+        android:id="@+id/tvProperty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#333" />
+        android:textColor="#666"
+        android:text="Property: 101" />
 
     <TextView
-        android:id="@+id/c_apt_id"
+        android:id="@+id/tvApartment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#666"
+        android:text="Apartment: A1" />
+
+    <TextView
+        android:id="@+id/tvType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#999"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:text="Type: water" />
 
 </LinearLayout>
