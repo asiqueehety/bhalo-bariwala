@@ -1,5 +1,6 @@
 package com.example.bhalobariwala.ui.owner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,13 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bhalobariwala.LandlordDAO;
 import com.example.bhalobariwala.R;
+import com.example.bhalobariwala.ui.login.LoginActivity;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class OwnerProfileActivity extends AppCompatActivity {
 
     private ImageView imageProfile;
     private TextView txtName, txtEmail, txtContact;
-    private Button btnEditProfile, btnSaveChanges;
+    private Button btnEditProfile, btnSaveChanges, btnCancelEdit, btnLogout;
     private View editContainer;
     private TextInputEditText editName, editEmail, editContact;
 
@@ -39,6 +41,8 @@ public class OwnerProfileActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.editEmail);
         editContact = findViewById(R.id.editContact);
         btnSaveChanges = findViewById(R.id.btnSaveChanges);
+        btnCancelEdit = findViewById(R.id.btnCancelEdit);
+        btnLogout = findViewById(R.id.btnLogout);
 
         landlordDAO = new LandlordDAO(this);
         landlordDAO.open();
@@ -79,6 +83,24 @@ public class OwnerProfileActivity extends AppCompatActivity {
             } else {
                 toast("Update failed");
             }
+        });
+
+        btnCancelEdit.setOnClickListener(v -> {
+            editContainer.setVisibility(View.GONE);
+        });
+
+        btnLogout.setOnClickListener(v -> {
+            // Clear any saved session data (if you have SharedPreferences)
+            // For example:
+            // getSharedPreferences("UserSession", MODE_PRIVATE).edit().clear().apply();
+
+            toast("Logged out successfully");
+
+            // Navigate back to login screen
+            Intent intent = new Intent(OwnerProfileActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         });
     }
 

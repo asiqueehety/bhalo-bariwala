@@ -13,6 +13,9 @@
             android:name=".ui.owner.OwnerProfileActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.owner.ViewApartmentsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.owner.ComplaintsActivity"
             android:exported="false" />
         <activity
