@@ -48,10 +48,21 @@
                 android:textSize="14sp"
                 android:textColor="#666666"
                 android:layout_marginTop="4dp" />
+
+            <TextView
+                android:id="@+id/txtApartmentStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vacant"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#4CAF50"
+                android:layout_marginTop="4dp" />
         </LinearLayout>
 
         <!-- Status Indicator -->
         <View
+            android:id="@+id/statusIndicator"
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:background="@drawable/circle_indicator"

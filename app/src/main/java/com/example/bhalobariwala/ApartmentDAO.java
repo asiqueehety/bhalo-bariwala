@@ -96,5 +96,17 @@ public class ApartmentDAO {
         c.close();
         return list;
     }
-}
 
+    /** Check if apartment is occupied (assigned to a tenant). */
+    public boolean isApartmentOccupied(long aptId) {
+        String query = "SELECT COUNT(*) FROM " + DatabaseHelper.T_TENANT +
+                " WHERE " + DatabaseHelper.T_APT_ID + "=?";
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(aptId)});
+        boolean isOccupied = false;
+        if (c.moveToFirst()) {
+            isOccupied = c.getInt(0) > 0;
+        }
+        c.close();
+        return isOccupied;
+    }
+}

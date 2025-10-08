@@ -119,9 +119,24 @@ public class ViewApartmentsActivity extends AppCompatActivity {
 
         TextView txtApartmentId = cardView.findViewById(R.id.txtApartmentId);
         TextView txtApartmentRent = cardView.findViewById(R.id.txtApartmentRent);
+        TextView txtApartmentStatus = cardView.findViewById(R.id.txtApartmentStatus);
+        View statusIndicator = cardView.findViewById(R.id.statusIndicator);
 
         txtApartmentId.setText("Apartment #" + apartment.getAptId());
         txtApartmentRent.setText("Rent: $" + apartment.getRent());
+
+        // Check if apartment is occupied
+        boolean isOccupied = apartmentDAO.isApartmentOccupied(apartment.getAptId());
+
+        if (isOccupied) {
+            txtApartmentStatus.setText("Occupied");
+            txtApartmentStatus.setTextColor(0xFFD32F2F); // Red
+            statusIndicator.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFD32F2F)); // Red
+        } else {
+            txtApartmentStatus.setText("Vacant");
+            txtApartmentStatus.setTextColor(0xFF4CAF50); // Green
+            statusIndicator.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF4CAF50)); // Green
+        }
 
         return cardView;
     }
