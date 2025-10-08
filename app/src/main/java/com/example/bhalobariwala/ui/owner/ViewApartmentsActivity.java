@@ -29,12 +29,22 @@ public class ViewApartmentsActivity extends AppCompatActivity {
 
     private PropertyDAO propertyDAO;
     private ApartmentDAO apartmentDAO;
-    private long landlordId = 1; // TODO: Get from session
+    private long landlordId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_apartments);
+
+        // Get landlord ID from session
+        landlordId = getSharedPreferences("auth", MODE_PRIVATE)
+                .getLong("current_landlord_id", -1);
+
+        if (landlordId == -1) {
+            Toast.makeText(this, "Session expired. Please login again.", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
 
         buildingsContainer = findViewById(R.id.buildingsContainer);
         emptyState = findViewById(R.id.emptyState);
