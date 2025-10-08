@@ -54,6 +54,47 @@ public class PropertyDAO {
         return list;
     }
 
+    /** Get all properties (for tenant signup). */
+    public List<Property> getAllProperties() {
+        List<Property> list = new ArrayList<>();
+        Cursor c = db.query(
+                DatabaseHelper.T_PROPERTY,
+                new String[]{DatabaseHelper.P_ID, DatabaseHelper.P_NAME, DatabaseHelper.P_LANDLORDID},
+                null, null, null, null,
+                DatabaseHelper.P_NAME + " ASC"
+        );
+        while (c.moveToNext()) {
+            list.add(new Property(
+                    c.getLong(0),   // prop_id
+                    c.getString(1), // prop_name
+                    c.getLong(2)    // landlord_id
+            ));
+        }
+        c.close();
+        return list;
+    }
+
+    /** Get property by ID. */
+    public Property getById(long propId) {
+        Cursor c = db.query(
+                DatabaseHelper.T_PROPERTY,
+                new String[]{DatabaseHelper.P_ID, DatabaseHelper.P_NAME, DatabaseHelper.P_LANDLORDID},
+                DatabaseHelper.P_ID + "=?",
+                new String[]{String.valueOf(propId)},
+                null, null, null
+        );
+        Property property = null;
+        if (c.moveToFirst()) {
+            property = new Property(
+                    c.getLong(0),   // prop_id
+                    c.getString(1), // prop_name
+                    c.getLong(2)    // landlord_id
+            );
+        }
+        c.close();
+        return property;
+    }
+
     // Optional debug helpers
     public int countAll() {
         Cursor c = db.rawQuery("SELECT COUNT(*) FROM " + DatabaseHelper.T_PROPERTY, null);

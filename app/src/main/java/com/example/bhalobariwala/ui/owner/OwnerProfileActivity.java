@@ -17,7 +17,7 @@ public class OwnerProfileActivity extends AppCompatActivity {
 
     private ImageView imageProfile;
     private TextView txtName, txtEmail, txtContact;
-    private Button btnEditProfile, btnSaveChanges;
+    private Button btnEditProfile, btnSaveChanges, btnCancelEdit;
     private View editContainer;
     private TextInputEditText editName, editEmail, editContact;
 
@@ -39,6 +39,7 @@ public class OwnerProfileActivity extends AppCompatActivity {
         editEmail = findViewById(R.id.editEmail);
         editContact = findViewById(R.id.editContact);
         btnSaveChanges = findViewById(R.id.btnSaveChanges);
+        btnCancelEdit = findViewById(R.id.btnCancelEdit);
 
         landlordDAO = new LandlordDAO(this);
         landlordDAO.open();
@@ -79,6 +80,10 @@ public class OwnerProfileActivity extends AppCompatActivity {
             } else {
                 toast("Update failed");
             }
+        });
+
+        btnCancelEdit.setOnClickListener(v -> {
+            editContainer.setVisibility(View.GONE);
         });
     }
 

@@ -4,165 +4,332 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="#F0F0F0">
+    android:background="@drawable/gradient_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="20dp">
+        android:padding="24dp">
+
+        <!-- Logo/Icon Area -->
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@android:drawable/ic_dialog_info"
+            android:tint="#FFFFFF"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="16dp" />
 
         <!-- Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sign Up"
-            android:textSize="28sp"
+            android:text="Create Account"
+            android:textSize="32sp"
             android:textStyle="bold"
-            android:textColor="#000000"
-            android:layout_marginBottom="20dp" />
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="8dp" />
 
-        <!-- Username -->
-        <com.google.android.material.textfield.TextInputLayout
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Join us today!"
+            android:textSize="16sp"
+            android:textColor="#E0E0E0"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Card Container -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username">
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp"
+            android:layout_marginBottom="24dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editUsername"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:background="#FFFFFF">
 
-        <!-- Email -->
-        <com.google.android.material.textfield.TextInputLayout
+                <!-- Username -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Username"
+                    app:boxBackgroundMode="outline"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxStrokeColor="#00796B"
+                    app:hintTextColor="#00796B"
+                    app:startIconDrawable="@android:drawable/ic_menu_myplaces"
+                    app:startIconTint="#00796B">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editUsername"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:textSize="16sp"
+                        android:textColor="#333333"
+                        android:textColorHint="#999999" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Email -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email Address"
+                    android:layout_marginTop="16dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxStrokeColor="#00796B"
+                    app:hintTextColor="#00796B"
+                    app:startIconDrawable="@android:drawable/ic_dialog_email"
+                    app:startIconTint="#00796B">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:textSize="16sp"
+                        android:textColor="#333333"
+                        android:textColorHint="#999999" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Contact -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contact Number"
+                    android:layout_marginTop="16dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxStrokeColor="#00796B"
+                    app:hintTextColor="#00796B"
+                    app:startIconDrawable="@android:drawable/stat_sys_phone_call"
+                    app:startIconTint="#00796B">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editContact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:textSize="16sp"
+                        android:textColor="#333333"
+                        android:textColorHint="#999999" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Password -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:layout_marginTop="16dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxStrokeColor="#00796B"
+                    app:hintTextColor="#00796B"
+                    app:startIconDrawable="@android:drawable/ic_lock_lock"
+                    app:startIconTint="#00796B"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="#00796B">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:textSize="16sp"
+                        android:textColor="#333333"
+                        android:textColorHint="#999999" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Retype Password -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Confirm Password"
+                    android:layout_marginTop="16dp"
+                    app:boxBackgroundMode="outline"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxStrokeColor="#00796B"
+                    app:hintTextColor="#00796B"
+                    app:startIconDrawable="@android:drawable/ic_lock_lock"
+                    app:startIconTint="#00796B"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="#00796B">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editRetypePassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:textSize="16sp"
+                        android:textColor="#333333"
+                        android:textColorHint="#999999" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Role Selection -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="I am a:"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#333333"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="12dp" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroupRole"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/radio_group_background"
+                    android:padding="4dp">
+
+                    <RadioButton
+                        android:id="@+id/radioOwner"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Owner"
+                        android:checked="true"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@drawable/radio_button_text_color"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radio_button_selector"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:layout_marginEnd="4dp" />
+
+                    <RadioButton
+                        android:id="@+id/radioTenant"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Tenant"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@drawable/radio_button_text_color"
+                        android:button="@android:color/transparent"
+                        android:background="@drawable/radio_button_selector"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:layout_marginStart="4dp" />
+                </RadioGroup>
+
+                <!-- Tenant-only Fields -->
+                <LinearLayout
+                    android:id="@+id/buildingIdContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="20dp"
+                    android:visibility="gone">
+
+                    <!-- Building Spinner -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Select Building"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="#00796B"
+                        android:layout_marginBottom="8dp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerBuilding"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/spinner_background"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:spinnerMode="dropdown" />
+
+                    <!-- Apartment Spinner -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Select Apartment"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="#00796B"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerApartment"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/spinner_background"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:enabled="false"
+                        android:spinnerMode="dropdown" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Sign Up Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSignUp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:layout_marginTop="10dp">
+            android:layout_height="60dp"
+            android:text="Sign Up"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="#00796B"
+            app:cornerRadius="30dp"
+            app:elevation="4dp"
+            android:layout_marginBottom="16dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Contact (for both Owner and Tenant) -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Contact Number"
-            android:layout_marginTop="10dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editContact"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Password -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:layout_marginTop="10dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Retype Password -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Retype Password"
-            android:layout_marginTop="10dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editRetypePassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Role Selection -->
-        <RadioGroup
-            android:id="@+id/radioGroupRole"
+        <!-- Login Link -->
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="15dp">
+            android:layout_marginBottom="20dp">
 
-            <RadioButton
-                android:id="@+id/radioOwner"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Owner"
-                android:checked="true"
-                android:layout_marginEnd="20dp" />
+                android:text="Already have an account? "
+                android:textSize="14sp"
+                android:textColor="#FFFFFF" />
 
-            <RadioButton
-                android:id="@+id/radioTenant"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tenant" />
-        </RadioGroup>
-
-        <!-- Tenant-only Fields -->
-        <LinearLayout
-            android:id="@+id/buildingIdContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp"
-            android:visibility="gone">
-
-            <!-- Building ID -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Building ID">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editBuildingId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Apartment ID -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Apartment ID"
-                android:layout_marginTop="10dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editApartmentId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:text="Login"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:clickable="true" />
         </LinearLayout>
-
-        <!-- Sign Up Button -->
-        <Button
-            android:id="@+id/btnSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sign Up"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#00796B"
-            android:layout_marginTop="25dp"
-            android:padding="12dp" />
 
     </LinearLayout>
 </ScrollView>
