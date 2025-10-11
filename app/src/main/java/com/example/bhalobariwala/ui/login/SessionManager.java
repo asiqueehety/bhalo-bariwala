@@ -44,4 +44,7 @@ public class SessionManager {
     public boolean isLoggedIn() {
         return getUserId() != -1;
     }
+
+    public void setLogin(long userId, String email, String roleStr) {
+    }
 }

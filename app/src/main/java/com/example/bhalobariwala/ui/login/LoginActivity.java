@@ -121,6 +121,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Simulate async work
         etEmail.postDelayed(() -> {
+            // Validate against the selected role
             int userId = (selectedRole == Role.OWNER)
                     ? landlordDAO.validate(email, password)
                     : tenantDAO.validate(email, password);
@@ -128,41 +129,46 @@ public class LoginActivity extends AppCompatActivity {
             setLoading(false);
 
             if (userId != -1) {
-                // Save ID, email, and role in session
+                // --- SESSION: store normalized role + id + email ---
+                // Convert enum to the string we use everywhere else
+                String roleStr = (selectedRole == Role.TENANT) ? "tenant" : "landlord";
+
+                // Prefer long in SessionManager but we can pass int safely
                 SessionManager session = new SessionManager(this);
-                session.saveLogin(userId, email, selectedRole.name());
+                session.setLogin((long) userId, email, roleStr); // <-- IMPORTANT
 
-                // Navigate to dashboard
+                // (Optional legacy) also store current_tenant_id/current_landlord_id if other code reads it
                 if (selectedRole == Role.TENANT) {
-                    // Resolve tenant id from your DAO (ensure this exists in your DAO)
-                    long tenantIdFromDB = tenantDAO.getIdByEmail(email); // <-- implement if missing
-
-                    // Store for later filtering/use
-                    getSharedPreferences("auth", MODE_PRIVATE)
-                            .edit()
-                            .putLong("current_tenant_id", tenantIdFromDB)
-                            .apply();
-
+                    long tenantIdFromDB = userId;
+                    try {
+                        // if you prefer DB lookup: tenantIdFromDB = tenantDAO.getIdByEmail(email);
+                        getSharedPreferences("auth", MODE_PRIVATE)
+                                .edit()
+                                .putLong("current_tenant_id", tenantIdFromDB)
+                                .apply();
+                    } catch (Throwable ignored) {}
+                    // Go to tenant dashboard
                     startActivity(new Intent(this, TenantDashboardActivity.class));
                 } else {
-                    // Resolve landlord id from your DAO (ensure this exists in your DAO)
-                    long landlordIdFromDB = landlordDAO.getIdByEmail(email); // <-- implement if missing
-
-                    // Store for later filtering/use
-                    getSharedPreferences("auth", MODE_PRIVATE)
-                            .edit()
-                            .putLong("current_landlord_id", landlordIdFromDB)
-                            .apply();
-
+                    long landlordIdFromDB = userId;
+                    try {
+                        // if you prefer DB lookup: landlordIdFromDB = landlordDAO.getIdByEmail(email);
+                        getSharedPreferences("auth", MODE_PRIVATE)
+                                .edit()
+                                .putLong("current_landlord_id", landlordIdFromDB)
+                                .apply();
+                    } catch (Throwable ignored) {}
+                    // Go to owner dashboard
                     startActivity(new Intent(this, OwnerDashboardActivity.class));
                 }
                 finish();
+                // ----------------------------------------------------
+
             } else {
                 Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
             }
         }, 200);
     }
-
 
     private void setLoading(boolean loading) {
         btnLogin.setEnabled(!loading);

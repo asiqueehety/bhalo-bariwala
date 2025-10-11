@@ -34,7 +34,7 @@ public class TenantDashboardActivity extends AppCompatActivity {
 
         cardComplaints.setOnClickListener(v -> {
             Toast.makeText(this, "Opening Complaints...", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, TenantComplaintsActivity.class));
+            startActivity(new Intent(this, com.example.bhalobariwala.ui.tenant.TenantComplaintsActivity.class));
         });
 
         cardDirectory.setOnClickListener(v -> {
