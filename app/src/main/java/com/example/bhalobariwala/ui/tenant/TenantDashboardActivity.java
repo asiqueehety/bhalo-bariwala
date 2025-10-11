@@ -28,23 +28,19 @@ public class TenantDashboardActivity extends AppCompatActivity {
 
         // Click listeners
         cardProfile.setOnClickListener(v -> {
-            Toast.makeText(this, "Opening Profile...", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, TenantProfileActivity.class));
         });
 
         cardComplaints.setOnClickListener(v -> {
-            Toast.makeText(this, "Opening Complaints...", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, TenantComplaintsActivity.class));
         });
 
         cardDirectory.setOnClickListener(v -> {
-            Toast.makeText(this, "Opening Directory...", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, TenantDirectoryActivity.class));
         });
 
         // NEW: Message landlord click listener
         cardMessageLandlord.setOnClickListener(v -> {
-            Toast.makeText(this, "Opening Messages...", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, com.example.bhalobariwala.ui.chat.TenantChatActivity.class));
         });
     }

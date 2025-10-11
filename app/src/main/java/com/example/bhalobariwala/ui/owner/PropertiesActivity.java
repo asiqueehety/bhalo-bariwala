@@ -65,19 +65,11 @@ public class PropertiesActivity extends AppCompatActivity {
 
     private void loadData() {
         try {
-            // DEBUG: Show current landlord ID
-            Toast.makeText(this, "Current Landlord ID: " + landlordId, Toast.LENGTH_LONG).show();
-            Log.d(TAG, "=== DEBUG: Current landlord ID = " + landlordId);
 
             // Load properties for this landlord
             List<Property> data = (landlordId == -1L) ? new ArrayList<>() : dao.listByLandlord(landlordId);
             Log.d(TAG, "Loaded " + data.size() + " properties for landlord " + landlordId);
-
-            // DEBUG: Also check total properties in database
             int totalCount = dao.countAll();
-            Log.d(TAG, "=== DEBUG: Total properties in database = " + totalCount);
-            Toast.makeText(this, "Found " + data.size() + " properties for landlord " + landlordId +
-                    " (Total in DB: " + totalCount + ")", Toast.LENGTH_LONG).show();
 
             adapter.setItems(data);
 
