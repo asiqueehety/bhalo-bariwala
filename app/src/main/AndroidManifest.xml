@@ -18,9 +18,6 @@
         <activity
             android:name=".ui.owner.ComplaintsActivity"
             android:exported="false" />
-        <activity
-            android:name=".ui.owner.RentCheckActivity"
-            android:exported="false" />
 
         <!-- Properties list screen -->
         <activity
