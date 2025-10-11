@@ -22,7 +22,6 @@ public class OwnerDashboardActivity extends AppCompatActivity {
 
         // Bind views
         cardProperties = findViewById(R.id.cardProperties);
-        cardRentCheck = findViewById(R.id.cardRentCheck);
         cardComplaints = findViewById(R.id.cardComplaints);
         cardOwnerProfile = findViewById(R.id.cardOwnerProfile);
         cardMessages = findViewById(R.id.cardMessages);
@@ -30,34 +29,24 @@ public class OwnerDashboardActivity extends AppCompatActivity {
 
         // Set click listeners
         cardProperties.setOnClickListener(v ->{
-                        Toast.makeText(this, "Properties clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(this, PropertiesActivity.class));}
         );
 
-        cardRentCheck.setOnClickListener(v ->{
-                        Toast.makeText(this, "Rent Check clicked", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(this, RentCheckActivity.class));}
-        );
-
         cardComplaints.setOnClickListener(v ->{
-                        Toast.makeText(this, "Complaints clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(this, ComplaintsActivity.class));}
         );
 
         cardOwnerProfile.setOnClickListener(v ->{
-                        Toast.makeText(this, "Owner Profile clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(this, OwnerProfileActivity.class));}
         );
 
         // NEW: Messages click listener
         cardMessages.setOnClickListener(v -> {
-                        Toast.makeText(this, "Messages clicked", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(this, com.example.bhalobariwala.ui.chat.LandlordMessagesActivity.class));
         });
 
         // NEW: Apartments click listener
         cardApartments.setOnClickListener(v -> {
-            Toast.makeText(this, "View/Add Apartments clicked", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, ViewApartmentsActivity.class));
         });
     }
