@@ -30,7 +30,8 @@ public class TenantComplaintsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tenant_complaints);
 
-        tenantId = getIntent().getLongExtra("tenant_id", -1);
+        tenantId = getSharedPreferences("auth", MODE_PRIVATE)
+                .getLong("current_tenant_id", -1);
         dao = new ComplaintDAO(this);
         dao.open();
 

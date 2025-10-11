@@ -21,13 +21,13 @@ public class ComplaintDAO {
     public void open() { db = helper.getWritableDatabase(); }
     public void close() { if (db != null && db.isOpen()) db.close(); }
 
-    public long addComplaint(String title, String desc, String type, long tenantId) {
+    public void addComplaint(String title, String desc, String type, long tenantId) {
         ContentValues v = new ContentValues();
         v.put(DatabaseHelper.C_TITLE, title);
         v.put(DatabaseHelper.C_DESC, desc);
         v.put(DatabaseHelper.C_TYPE, type);
         v.put(DatabaseHelper.C_TID, tenantId);
-        return db.insert(DatabaseHelper.T_COMPLAINTS, null, v);
+        db.insert(DatabaseHelper.T_COMPLAINTS, null, v);
     }
 
     public List<Map<String, String>> getComplaintsForBuilding(long tenantId) {
