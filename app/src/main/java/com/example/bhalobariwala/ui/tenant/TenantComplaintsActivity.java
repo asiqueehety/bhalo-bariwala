@@ -1,7 +1,5 @@
 package com.example.bhalobariwala.ui.tenant;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,124 +14,73 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bhalobariwala.ComplaintDAO;
 import com.example.bhalobariwala.R;
-import com.example.bhalobariwala.SessionManager;             // <-- your SessionManager is in root package
 import com.example.bhalobariwala.adapters.ComplaintsAdapter;
-import com.example.bhalobariwala.ui.login.LoginActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class TenantComplaintsActivity extends AppCompatActivity {
-
     private ComplaintDAO dao;
     private ComplaintsAdapter adapter;
-    private long tenantId = -1;
-    private String role = "";
-    private RecyclerView rv; // cache view
+    private long tenantId; // assume you pass this via Intent extra
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tenant_complaints);
-        setTitle(getString(R.string.tenant_complaints_title));
 
-        // 1) Check session first
-       SessionManager sm = new SessionManager(this);
-//        if (!sm.isLoggedIn()) {
-//            goLogin("Please log in.");
-//            return;
-//        }
-//        role = sm.getRole();
-      //  SharedPreferences prefs = getSharedPreferences("auth", MODE_PRIVATE);
-//        tenantId = prefs.getLong("current_tenant_id", -1);
-               tenantId = sm.getUserId(); // long-friendly
+        tenantId = getIntent().getLongExtra("tenant_id", -1);
+        dao = new ComplaintDAO(this);
+        dao.open();
 
-//        if (!"tenant".equalsIgnoreCase(role) || tenantId <= 0) {
-//            goLogin("Tenant session not found. Please log in as a tenant.");
-//            return;
-//        }
-
-        // 2) UI
-        rv = findViewById(R.id.recyclerComplaints);
+        RecyclerView rv = findViewById(R.id.recyclerComplaints);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new ComplaintsAdapter(this, new ArrayList<>());
+
+        List<Map<String, String>> list = dao.getComplaintsForBuilding(tenantId);
+        adapter = new ComplaintsAdapter(this, list);
         rv.setAdapter(adapter);
 
-        // 3) DAO + initial load
-        try {
-            dao = new ComplaintDAO(this);
-            dao.open();
-            refreshList();
-        } catch (Throwable t) {
-            Toast.makeText(this, "Error loading complaints: " + t.getMessage(), Toast.LENGTH_LONG).show();
-        }
-
-        findViewById(R.id.fabAdd).setOnClickListener(v -> showAddDialog());
+        FloatingActionButton fab = findViewById(R.id.fabAdd);
+        fab.setOnClickListener(v -> showAddDialog());
     }
 
     private void showAddDialog() {
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_add_complaint, null, false);
-        EditText etTitle = view.findViewById(R.id.etTitle);
-        EditText etDesc  = view.findViewById(R.id.etDesc);
-        Spinner  spType  = view.findViewById(R.id.spType);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_complaint, null);
+        EditText etTitle = dialogView.findViewById(R.id.etTitle);
+        EditText etDesc = dialogView.findViewById(R.id.etDesc);
+        Spinner spType = dialogView.findViewById(R.id.spType);
 
         new AlertDialog.Builder(this)
-                .setTitle(R.string.complaint_add)
-                .setView(view)
-                .setPositiveButton(android.R.string.ok, (d, w) -> {
+                .setTitle("Add Complaint")
+                .setView(dialogView)
+                .setPositiveButton("Submit", (d, w) -> {
                     String title = etTitle.getText().toString().trim();
-                    String desc  = etDesc.getText().toString().trim();
-                    String type  = (spType != null && spType.getSelectedItem() != null)
-                            ? spType.getSelectedItem().toString()
-                            : "";
+                    String desc = etDesc.getText().toString().trim();
+                    String type = spType.getSelectedItem().toString();
 
-                    if (title.isEmpty()) {
-                        Toast.makeText(this, "Title is required.", Toast.LENGTH_SHORT).show();
+                    if (title.isEmpty() || desc.isEmpty()) {
+                        Toast.makeText(this, "All fields required", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    try {
-                        long id = dao.addComplaint(tenantId, title, desc, type);
-                        if (id > 0) {
-                            Toast.makeText(this, "Complaint added.", Toast.LENGTH_SHORT).show();
-                            refreshList();
-                        } else {
-                            Toast.makeText(this, "Failed to add complaint.", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (Throwable t) {
-                        Toast.makeText(this, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
-                    }
+                    dao.addComplaint(title, desc, type, tenantId);
+                    refreshList();
                 })
-                .setNegativeButton(android.R.string.cancel, null)
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 
     private void refreshList() {
-        try {
-            List<Map<String, String>> list = dao.getComplaintsForBuilding(tenantId);
-            adapter = new ComplaintsAdapter(this, list);
-            rv.setAdapter(adapter);
-
-            if (list.isEmpty()) {
-                Toast.makeText(this, getString(R.string.complaint_empty), Toast.LENGTH_SHORT).show();
-            }
-        } catch (Throwable t) {
-            Toast.makeText(this, "Load error: " + t.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void goLogin(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
+        List<Map<String, String>> list = dao.getComplaintsForBuilding(tenantId);
+        adapter = new ComplaintsAdapter(this, list);
+        RecyclerView rv = findViewById(R.id.recyclerComplaints);
+        rv.setAdapter(adapter);
     }
 
     @Override
     protected void onDestroy() {
-        if (dao != null) {
-            try { dao.close(); } catch (Throwable ignored) {}
-        }
+        dao.close();
         super.onDestroy();
     }
 }

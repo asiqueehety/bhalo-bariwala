@@ -16,55 +16,54 @@ import java.util.Map;
 
 public class ComplaintsAdapter extends RecyclerView.Adapter<ComplaintsAdapter.ComplaintViewHolder> {
 
-    private final Context ctx;
-    private final List<Map<String, String>> data;
+    private final Context context;
+    private final List<Map<String, String>> complaintList; // changed type
 
-    public ComplaintsAdapter(Context ctx, List<Map<String, String>> data) {
-        this.ctx = ctx;
-        this.data = data;
+    public ComplaintsAdapter(Context context, List<Map<String, String>> complaintList) {
+        this.context = context;
+        this.complaintList = complaintList;
     }
 
     @NonNull
     @Override
     public ComplaintViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(ctx).inflate(R.layout.item_complaint, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.item_complaint, parent, false);
         return new ComplaintViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ComplaintViewHolder h, int position) {
-        Map<String, String> row = data.get(position);
+    public void onBindViewHolder(@NonNull ComplaintViewHolder holder, int position) {
+        Map<String, String> complaint = complaintList.get(position);
 
-        String title   = val(row.get("title"));
-        String desc    = val(row.get("desc"));
-        String type    = val(row.get("type"));
-        String propId  = val(row.get("prop_id"));
-        String aptId   = val(row.get("apt_id"));
+        // safely get values from the map
+        String title = complaint.get("title");
+        String desc = complaint.get("desc");
+        String type = complaint.get("type");
+        String property = complaint.get("property_name"); // if exists
+        String aptId = complaint.get("apt_id");
 
-        h.tvTitle.setText(title);
-        h.tvDesc.setText(desc.isEmpty() ? "No description" : desc);
-        h.tvType.setText("Type: " + (type.isEmpty() ? "-" : type));
-        h.tvProperty.setText("Property: " + (propId.isEmpty() ? "-" : propId));
-        h.tvApartment.setText("Apartment: " + (aptId.isEmpty() ? "-" : aptId));
+        holder.tvTitle.setText(title != null ? title : "");
+        holder.tvDesc.setText(desc != null ? desc : "");
+        holder.tvType.setText("Type: " + (type != null ? type : ""));
+        holder.tvProperty.setText("Property: " + (property != null ? property : "N/A"));
+        holder.tvApartment.setText("Apartment: " + (aptId != null ? aptId : "N/A"));
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return complaintList.size();
     }
-
-    private static String val(String s) { return s == null ? "" : s; }
 
     static class ComplaintViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvDesc, tvProperty, tvApartment, tvType;
 
         public ComplaintViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTitle     = itemView.findViewById(R.id.tvTitle);
-            tvDesc      = itemView.findViewById(R.id.tvDesc);
-            tvProperty  = itemView.findViewById(R.id.tvProperty);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
+            tvDesc = itemView.findViewById(R.id.tvDesc);
+            tvProperty = itemView.findViewById(R.id.tvProperty);
             tvApartment = itemView.findViewById(R.id.tvApartment);
-            tvType      = itemView.findViewById(R.id.tvType);
+            tvType = itemView.findViewById(R.id.tvType);
         }
     }
 }

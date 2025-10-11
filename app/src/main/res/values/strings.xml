@@ -12,21 +12,20 @@
     <string name="btn_signup">Create account</string>
 
     <!-- Tenant Complaints -->
-    <string name="tenant_complaints_title">Complaints</string>
+    <string name="tenant_complaints_title">Tenant Complaints</string>
+    <string name="complaint_title_hint">Complaint Title</string>
+    <string name="complaint_desc_hint">Describe your issue</string>
+    <string name="complaint_type_hint">Complaint Type</string>
     <string name="complaint_add">Add Complaint</string>
-    <string name="complaint_empty">No complaints found for your property.</string>
-    <string name="complaint_title">Complaint title</string>
-    <string name="complaint_desc">Description (optional)</string>
+    <string name="complaint_empty">No complaints found for your building.</string>
 
     <string-array name="complaint_types">
-        <item>Maintenance</item>
-        <item>Electricity</item>
-        <item>Gas</item>
-        <item>Water</item>
-        <item>Security</item>
-        <item>Other</item>
+        <item>electricity</item>
+        <item>gas</item>
+        <item>water</item>
+        <item>security</item>
+        <item>maintenance</item>
     </string-array>
-
 
 
 </resources>
