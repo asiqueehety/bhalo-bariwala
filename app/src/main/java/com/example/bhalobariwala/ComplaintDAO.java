@@ -31,13 +31,19 @@ public class ComplaintDAO {
     }
 
     public List<Map<String, String>> getComplaintsForBuilding(long tenantId) {
-        String query = "SELECT c." + DatabaseHelper.C_TITLE + ", c." + DatabaseHelper.C_DESC + ", c." + DatabaseHelper.C_TYPE +
-                ", t." + DatabaseHelper.T_APT_ID +
-                " FROM " + DatabaseHelper.T_COMPLAINTS + " c " +
-                " INNER JOIN " + DatabaseHelper.T_TENANT + " t ON c." + DatabaseHelper.C_TID + " = t." + DatabaseHelper.T_ID +
-                " WHERE t." + DatabaseHelper.T_PROP_ID + " = (" +
-                "SELECT " + DatabaseHelper.T_PROP_ID + " FROM " + DatabaseHelper.T_TENANT +
-                " WHERE " + DatabaseHelper.T_ID + " = ?)";
+
+        String query =
+                "SELECT c." + DatabaseHelper.C_TITLE + ", " +
+                        "c." + DatabaseHelper.C_DESC + ", " +
+                        "c." + DatabaseHelper.C_TYPE + ", " +
+                        "t." + DatabaseHelper.T_PROP_ID + ", " +
+                        "t." + DatabaseHelper.T_APT_ID + ", " +
+                        "p." + DatabaseHelper.P_NAME +
+                        " FROM " + DatabaseHelper.T_COMPLAINTS + " c " +
+                        " JOIN " + DatabaseHelper.T_TENANT + " t ON c." + DatabaseHelper.C_TID + " = t." + DatabaseHelper.T_ID +
+                        " JOIN " + DatabaseHelper.T_PROPERTY + " p ON t." + DatabaseHelper.T_PROP_ID + " = p." + DatabaseHelper.P_ID +
+                        " WHERE p." + DatabaseHelper.P_LANDLORDID + " = ?";   // filter by logged-in owner
+
         Cursor cur = db.rawQuery(query, new String[]{String.valueOf(tenantId)});
         List<Map<String, String>> list = new ArrayList<>();
         while (cur.moveToNext()) {
@@ -46,6 +52,8 @@ public class ComplaintDAO {
             m.put("desc", cur.getString(1));
             m.put("type", cur.getString(2));
             m.put("apt_id", cur.getString(3));
+            m.put("prop_id",cur.getString(4));
+            m.put("prop_name",cur.getString(5));
             list.add(m);
         }
         cur.close();

@@ -39,7 +39,8 @@ public class ComplaintsAdapter extends RecyclerView.Adapter<ComplaintsAdapter.Co
         String title = complaint.get("title");
         String desc = complaint.get("desc");
         String type = complaint.get("type");
-        String property = complaint.get("property_name"); // if exists
+        String prop_id = complaint.get("prop_id");
+        String property = complaint.get("prop_name"); // if exists
         String aptId = complaint.get("apt_id");
 
         holder.tvTitle.setText(title != null ? title : "");
