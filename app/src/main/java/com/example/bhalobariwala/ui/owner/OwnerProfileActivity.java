@@ -1,7 +1,9 @@
 package com.example.bhalobariwala.ui.owner;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,7 +26,9 @@ public class OwnerProfileActivity extends AppCompatActivity {
     private TextInputEditText editName, editEmail, editContact;
 
     private LandlordDAO landlordDAO;
-    private long landlordId = 1; // demo: assume logged-in landlord has ID = 1
+     // demo: assume logged-in landlord has ID = 1
+     private SharedPreferences sp;
+    private long landlordId = -1L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,16 @@ public class OwnerProfileActivity extends AppCompatActivity {
         btnSaveChanges = findViewById(R.id.btnSaveChanges);
         btnCancelEdit = findViewById(R.id.btnCancelEdit);
         btnLogout = findViewById(R.id.btnLogout);
+
+        sp = getSharedPreferences("auth", MODE_PRIVATE);
+        landlordId = sp.getLong("current_landlord_id", -1L);
+        if (landlordId == -1L) {
+            toast("Please log in.");
+            startActivity(new Intent(this, LoginActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+            finish();
+            return;
+        }
 
         landlordDAO = new LandlordDAO(this);
         landlordDAO.open();
@@ -92,7 +106,7 @@ public class OwnerProfileActivity extends AppCompatActivity {
         btnLogout.setOnClickListener(v -> {
             // Clear any saved session data (if you have SharedPreferences)
             // For example:
-            // getSharedPreferences("UserSession", MODE_PRIVATE).edit().clear().apply();
+             getSharedPreferences("UserSession", MODE_PRIVATE).edit().clear().apply();
 
             toast("Logged out successfully");
 
